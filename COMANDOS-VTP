@@ -1,0 +1,209 @@
+configuraciòn de VTP en el switch swServer 
+
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swServer
+swServer(config)#vtp mode server
+Device mode already VTP Server for VLANS.
+swServer(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swServer(config)#
+*Oct  6 05:13:44.376: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swServer(config)#vtp password tomas
+Setting device VTP password to tomas
+swServer(config)#exit
+
+
+Configuraciòn VTP modo cliente el los switch swCuno, swCdos, swCTres, swCcuatro, SwCcinco
+/////////////////////////////////////////////////
+swCuno
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swCuno
+swCuno(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+swCuno(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swCuno(config)#
+*Oct  6 05:17:50.304: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swCuno(config)#vtp password tomas
+Setting device VTP password to tomas
+swCuno(config)#exit
+
+///////////////////////////////////////////////////
+swCdos
+
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swCdos
+swCdos(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+swCdos(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swCdos(config)#
+*Oct  6 05:20:56.084: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swCdos(config)#vtp password tomas
+Setting device VTP password to tomas
+swCdos(config)#exit
+
+///////////////////////////////////////////////////
+swCtres
+
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swCtres
+swCtres(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+swCtres(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swCtres(config)#
+*Oct  6 05:22:17.182: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swCtres(config)#vtp password tomas
+Setting device VTP password to tomas
+swCtres(config)#exit
+
+////////////////////////////////////////////////////
+swCcuatro
+
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swCcuatro
+swCcuatro(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+swCcuatro(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swCcuatro(config)#
+*Oct  6 05:23:17.942: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swCcuatro(config)#vtp password tomas
+Setting device VTP password to tomas
+swCcuatro(config)#exit
+
+//////////////////////////////////////////////////////
+swCcinco
+
+
+Switch>ena
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname swCcinco
+swCcinco(config)#vtp mode client
+Setting device to VTP Client mode for VLANS.
+swCcinco(config)#vtp domain tomas.alvarez
+Changing VTP domain name from NULL to tomas.alvarez
+swCcinco(config)#
+*Oct  6 05:25:07.197: %SW_VLAN-6-VTP_DOMAIN_NAME_CHG: VTP domain name changed to tomas.alvarez.
+swCcinco(config)#vtp password tomas
+Setting device VTP password to tomas
+swCcinco(config)#exit
+
+
+
+/////////////////////////////////////////////////////
+
+TRUNCAMOS LAS INTERFACES TANTO DEL SWITCH SERVIDOR COMO DE LOS CLIENTES
+
+server 
+
+swServer>ena
+swServer#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swServer(config)#inter range g0/0-2
+swServer(config-if-range)#switchport trunk encapsulation dot1q
+swServer(config-if-range)#switchport mode trunk
+swServer(config-if-range)#switchport trunk native vlan 99
+swServer(config-if-range)#exit
+swServer(config)#
+
+
+swCuno 
+
+swCuno>ena
+swCuno#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swCuno(config)#inter range
+*Oct  6 05:32:55.804: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet0/0 (1), with swServer GigabitEthernet0/0 (99).
+swCuno(config)#inter range g0/0-1
+swCuno(config-if-range)#switchport trunk encapsulation dot1q
+swCuno(config-if-range)#switchport mode trunk
+swCuno(config-if-range)#switchport trunk native vlan 99
+swCuno(config-if-range)#exit
+
+
+swCdos
+
+swCdos>ena
+swCdos#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swCdos(config)#inter range g0/0-1
+swCdos(config-if-range)#switchport trunk encapsulation dot1q
+swCdos(config-if-range)#switchport mode tunk
+swCdos(config-if-range)#switchport trunk native vlan 99
+swCdos(config-if-range)#exit
+
+
+swCcuatro
+
+swCcuatro>ena
+swCcuatro#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swCcuatro(config)#inter g0/0
+*Oct  6 05:39:42.484: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet0/0 (1), with swCuno GigabitEthernet0/1 (99).
+swCcuatro(config-if)#switchport trunk encapsulation dot1q
+swCcuatro(config-if)#switchport mode trunk
+swCcuatro(config-if)#switchport trunk native vlan 99
+swCcuatro(config-if)#exit
+
+
+swCcinco
+
+swCcinco>ena
+swCcinco#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swCcinco(config)#inter g0/0
+swCcinco(config-if)#switchport trunk encapsulation dot1q
+swCcinco(config-if)#switchport mode tru
+*Oct  6 05:42:01.749: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet0/0 (1), with swCdos GigabitEthernet0/0 (99).
+swCcinco(config-if)#switchport mode trunk
+swCcinco(config-if)#switchport trunk native vlan 99
+swCcinco(config-if)#exit
+swCcinco(config)#
+
+
+swCtres
+
+swCtres>ena
+swCtres#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swCtres(config)#inter g0/0
+swCtres(config-if)#switchport trunk encapsula
+*Oct  6 05:43:20.412: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet0/0 (1), with swServer GigabitEthernet0/2 (99).
+swCtres(config-if)#switchport trunk encapsulation dot1q
+swCtres(config-if)#switchport mode trunk
+swCtres(config-if)#switchport trunk native vlan 99
+swCtres(config-if)#exit
+
+
+
+creacion de las vlan en el switch swServer ya que es el  servidor
+
+
+swServer>ena
+swServer#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+swServer(config)#vlan 10
+swServer(config-vlan)#name vlan10
+swServer(config-vlan)#exit
+swServer(config)#vlan 20
+swServer(config-vlan)#name vlan20
+swServer(config-vlan)#exit
+swServer(config)#vlan 30
+swServer(config-vlan)#name vlan30
+swServer(config-vlan)#exit
+swServer(config)#end
+swServer#wr
+
